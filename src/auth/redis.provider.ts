@@ -8,7 +8,7 @@ export class RedisProvider {
   private readonly redisClient: Redis;
 
   constructor() {
-    this.redisClient = new Redis(RedisConfig);
+    this.redisClient = new Redis(new RedisConfig());
   }
 
   async get(key: string) {
