@@ -19,7 +19,9 @@ describe('ApiResponseInterceptor', () => {
     interceptor
       .intercept(mockExecutionContext, mockCallHandler)
       .subscribe((result) => {
-        expect(result).toEqual(new ApiResponseDto(HttpStatus.OK, true, { key: 'value' }));
+        expect(result).toEqual(
+          new ApiResponseDto(HttpStatus.OK, true, { key: 'value' }),
+        );
         done();
       });
 

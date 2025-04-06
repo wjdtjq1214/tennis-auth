@@ -1,6 +1,9 @@
 import { JwtStrategy } from './jwt.strategy';
 import { UserRepository } from 'src/user/user.repository';
-import { InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthPayloadDto } from './dto/auth.payload.dto';
 import { User } from 'src/user/user.entity';
 
@@ -13,8 +16,11 @@ describe('JwtStrategy', () => {
       findUserByUuid: jest.fn(),
     };
 
-    jwtStrategy = new JwtStrategy(mockUserRepository as unknown as UserRepository);
-    userRepository = mockUserRepository as unknown as jest.Mocked<UserRepository>;
+    jwtStrategy = new JwtStrategy(
+      mockUserRepository as unknown as UserRepository,
+    );
+    userRepository =
+      mockUserRepository as unknown as jest.Mocked<UserRepository>;
   });
 
   it('should be defined', () => {
@@ -46,14 +52,16 @@ describe('JwtStrategy', () => {
       const mockPayload: AuthPayloadDto = { userUuid: 'non-existent-uuid' };
 
       userRepository.findUserByUuid.mockImplementation(() => {
-        throw new InternalServerErrorException()
+        throw new InternalServerErrorException();
       });
 
       await expect(jwtStrategy.validate(mockPayload)).rejects.toThrow(
         new InternalServerErrorException(),
       );
 
-      expect(userRepository.findUserByUuid).toHaveBeenCalledWith('non-existent-uuid');
+      expect(userRepository.findUserByUuid).toHaveBeenCalledWith(
+        'non-existent-uuid',
+      );
     });
   });
 });

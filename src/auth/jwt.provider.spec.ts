@@ -77,7 +77,9 @@ describe('JwtProvider', () => {
         throw new Error('Invalid token');
       });
 
-      expect(() => jwtProvider.refreshTokenVerify(mockRefreshToken)).toThrow('Invalid token');
+      expect(() => jwtProvider.refreshTokenVerify(mockRefreshToken)).toThrow(
+        'Invalid token',
+      );
       expect(jwtService.verify).toHaveBeenCalledWith(mockRefreshToken, {
         secret: process.env.JWT_REFRESH_SECRET,
       });

@@ -11,7 +11,10 @@ describe('ResponseExceptionFilter', () => {
 
   it('should handle HttpException and return a formatted response', () => {
     // Mock the exception
-    const mockException = new HttpException('Test error message', HttpStatus.BAD_REQUEST);
+    const mockException = new HttpException(
+      'Test error message',
+      HttpStatus.BAD_REQUEST,
+    );
 
     // Mock the ArgumentsHost
     const mockResponse = {

@@ -44,8 +44,11 @@ export class UserService {
         userCreateUpdateUserReqDto.pw,
         await bcrypt.genSalt(),
       );
-      
-      const user = await this.userRepository.updateUser(uuid, userCreateUpdateUserReqDto);
+
+      const user = await this.userRepository.updateUser(
+        uuid,
+        userCreateUpdateUserReqDto,
+      );
 
       return { userUuid: user.uuid };
     } catch (e: unknown) {
@@ -70,7 +73,9 @@ export class UserService {
         await bcrypt.genSalt(),
       );
 
-      const user = await this.userRepository.createUser(userCreateUpdateUserReqDto);
+      const user = await this.userRepository.createUser(
+        userCreateUpdateUserReqDto,
+      );
 
       return { userUuid: user.uuid };
     } catch (e: unknown) {

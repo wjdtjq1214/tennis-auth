@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class RedisConfig {
@@ -6,7 +6,7 @@ export class RedisConfig {
     return {
       host: process.env.REDIS_HOST,
       port: parseInt(process.env.REDIS_PORT ?? '6379'),
-      password: process.env.REDIS_PASS
-    }
+      password: process.env.REDIS_PASS,
+    };
   }
-};
+}

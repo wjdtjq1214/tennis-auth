@@ -31,8 +31,12 @@ describe('AuthService - refresh', () => {
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
-    jwtProvider = module.get<JwtProvider>(JwtProvider) as jest.Mocked<JwtProvider>;
-    redisProvider = module.get<RedisProvider>(RedisProvider) as jest.Mocked<RedisProvider>;
+    jwtProvider = module.get<JwtProvider>(
+      JwtProvider,
+    ) as jest.Mocked<JwtProvider>;
+    redisProvider = module.get<RedisProvider>(
+      RedisProvider,
+    ) as jest.Mocked<RedisProvider>;
   });
 
   it('should be defined', () => {
@@ -57,7 +61,9 @@ describe('AuthService - refresh', () => {
 
       const result = await authService.refresh(authRefreshReqDto);
 
-      expect(jwtProvider.refreshTokenVerify).toHaveBeenCalledWith(mockRefreshToken);
+      expect(jwtProvider.refreshTokenVerify).toHaveBeenCalledWith(
+        mockRefreshToken,
+      );
       expect(redisProvider.get).toHaveBeenCalledWith(mockPayload.userUuid);
       expect(jwtProvider.accessTokenSign).toHaveBeenCalledWith(mockPayload);
       expect(result).toEqual({ accessToken: mockAccessToken });
@@ -76,7 +82,9 @@ describe('AuthService - refresh', () => {
         new HttpException('Invalid Refresh Token', HttpStatus.UNAUTHORIZED),
       );
 
-      expect(jwtProvider.refreshTokenVerify).toHaveBeenCalledWith('invalid-refresh-token');
+      expect(jwtProvider.refreshTokenVerify).toHaveBeenCalledWith(
+        'invalid-refresh-token',
+      );
       expect(redisProvider.get).not.toHaveBeenCalled();
     });
 
@@ -93,7 +101,9 @@ describe('AuthService - refresh', () => {
         new HttpException('Invalid Refresh Token', HttpStatus.UNAUTHORIZED),
       );
 
-      expect(jwtProvider.refreshTokenVerify).toHaveBeenCalledWith('mismatched-refresh-token');
+      expect(jwtProvider.refreshTokenVerify).toHaveBeenCalledWith(
+        'mismatched-refresh-token',
+      );
       expect(redisProvider.get).toHaveBeenCalledWith(mockPayload.userUuid);
     });
 
@@ -110,7 +120,9 @@ describe('AuthService - refresh', () => {
         new HttpException('Unexpected error', HttpStatus.INTERNAL_SERVER_ERROR),
       );
 
-      expect(jwtProvider.refreshTokenVerify).toHaveBeenCalledWith('valid-refresh-token');
+      expect(jwtProvider.refreshTokenVerify).toHaveBeenCalledWith(
+        'valid-refresh-token',
+      );
     });
   });
 });

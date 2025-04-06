@@ -25,7 +25,9 @@ describe('UserService', () => {
     }).compile();
 
     userService = module.get<UserService>(UserService);
-    userRepository = module.get<UserRepository>(UserRepository) as jest.Mocked<UserRepository>;
+    userRepository = module.get<UserRepository>(
+      UserRepository,
+    ) as jest.Mocked<UserRepository>;
   });
 
   it('should be defined', () => {
@@ -53,7 +55,9 @@ describe('UserService', () => {
     });
 
     it('should throw an error if the user does not exist', async () => {
-      userRepository.findUserByUuid.mockRejectedValue(new Error('User not found'));
+      userRepository.findUserByUuid.mockRejectedValue(
+        new Error('User not found'),
+      );
 
       await expect(userService.getUser('test-uuid')).rejects.toThrow(
         new HttpException('User not found', HttpStatus.INTERNAL_SERVER_ERROR),
@@ -72,13 +76,23 @@ describe('UserService', () => {
         phone: '9876543210',
       };
 
-      jest.spyOn(bcrypt, 'hash').mockImplementation((password: string, salt: string) => 'hashed-password');
+      jest
+        .spyOn(bcrypt, 'hash')
+        .mockImplementation(
+          (password: string, salt: string) => 'hashed-password',
+        );
 
       userRepository.updateUser.mockResolvedValue(mockUser);
 
-      const result = await userService.updateUser('test-uuid', mockUserCreateUpdateUserReqDto);
+      const result = await userService.updateUser(
+        'test-uuid',
+        mockUserCreateUpdateUserReqDto,
+      );
 
-      expect(bcrypt.hash).toHaveBeenCalledWith('updated-password', expect.any(String));
+      expect(bcrypt.hash).toHaveBeenCalledWith(
+        'updated-password',
+        expect.any(String),
+      );
 
       expect(userRepository.updateUser).toHaveBeenCalledWith('test-uuid', {
         ...mockUserCreateUpdateUserReqDto,
@@ -96,13 +110,19 @@ describe('UserService', () => {
         phone: '9876543210',
       };
 
-      jest.spyOn(bcrypt, 'hash').mockImplementation((password: string, salt: string) => 'hashed-password');
+      jest
+        .spyOn(bcrypt, 'hash')
+        .mockImplementation(
+          (password: string, salt: string) => 'hashed-password',
+        );
 
       userRepository.updateUser.mockRejectedValue(new Error('Update failed'));
 
       await expect(
         userService.updateUser('test-uuid', mockUserCreateUpdateUserReqDto),
-      ).rejects.toThrow(new HttpException('Update failed', HttpStatus.INTERNAL_SERVER_ERROR));
+      ).rejects.toThrow(
+        new HttpException('Update failed', HttpStatus.INTERNAL_SERVER_ERROR),
+      );
     });
   });
 
@@ -119,11 +139,20 @@ describe('UserService', () => {
 
       userRepository.createUser.mockResolvedValue(mockUser);
 
-      jest.spyOn(bcrypt, 'hash').mockImplementation((password: string, salt: string) => 'hashed-password');
+      jest
+        .spyOn(bcrypt, 'hash')
+        .mockImplementation(
+          (password: string, salt: string) => 'hashed-password',
+        );
 
-      const result = await userService.createUser(mockUserCreateUpdateUserReqDto);
+      const result = await userService.createUser(
+        mockUserCreateUpdateUserReqDto,
+      );
 
-      expect(bcrypt.hash).toHaveBeenCalledWith('test-password', expect.any(String));
+      expect(bcrypt.hash).toHaveBeenCalledWith(
+        'test-password',
+        expect.any(String),
+      );
       expect(userRepository.createUser).toHaveBeenCalledWith({
         ...mockUserCreateUpdateUserReqDto,
         pw: 'hashed-password',
@@ -140,11 +169,17 @@ describe('UserService', () => {
         phone: '1234567890',
       };
 
-      jest.spyOn(bcrypt, 'hash').mockImplementation((password: string, salt: string) => 'hashed-password');
+      jest
+        .spyOn(bcrypt, 'hash')
+        .mockImplementation(
+          (password: string, salt: string) => 'hashed-password',
+        );
 
       userRepository.createUser.mockRejectedValue(new Error('Create failed'));
 
-      await expect(userService.createUser(mockUserCreateUpdateUserReqDto)).rejects.toThrow(
+      await expect(
+        userService.createUser(mockUserCreateUpdateUserReqDto),
+      ).rejects.toThrow(
         new HttpException('Create failed', HttpStatus.INTERNAL_SERVER_ERROR),
       );
     });

@@ -15,9 +15,11 @@ export class UserRepository extends Repository<User> {
     super(User, dataSource.createEntityManager());
   }
 
-  async createUser(authSignupReqDto: UserCreateUpdateUserReqDto): Promise<User> {
+  async createUser(
+    authSignupReqDto: UserCreateUpdateUserReqDto,
+  ): Promise<User> {
     try {
-      return await this.save(this.create(authSignupReqDto));;
+      return await this.save(this.create(authSignupReqDto));
     } catch (e: unknown) {
       if (e instanceof Error) {
         // if (e.code === '23505') throw new ConflictException('Existing User');

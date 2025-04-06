@@ -22,7 +22,9 @@ describe('UserController', () => {
     }).compile();
 
     userController = module.get<UserController>(UserController);
-    userService = module.get<UserService>(UserService) as jest.Mocked<UserService>;
+    userService = module.get<UserService>(
+      UserService,
+    ) as jest.Mocked<UserService>;
   });
 
   it('should be defined', () => {
@@ -66,9 +68,15 @@ describe('UserController', () => {
 
       userService.updateUser.mockResolvedValue(mockResponse);
 
-      const result = await userController.updateUser('test-uuid', mockRequestDto);
+      const result = await userController.updateUser(
+        'test-uuid',
+        mockRequestDto,
+      );
 
-      expect(userService.updateUser).toHaveBeenCalledWith('test-uuid', mockRequestDto);
+      expect(userService.updateUser).toHaveBeenCalledWith(
+        'test-uuid',
+        mockRequestDto,
+      );
       expect(result).toEqual(mockResponse);
     });
   });

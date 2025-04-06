@@ -36,7 +36,10 @@ describe('LoggerMiddleware', () => {
 
   it('should log the request details when the response finishes', () => {
     const startTime = Date.now();
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => startTime).mockImplementationOnce(() => startTime + 100);
+    jest
+      .spyOn(Date, 'now')
+      .mockImplementationOnce(() => startTime)
+      .mockImplementationOnce(() => startTime + 100);
 
     loggerMiddleware.use(
       mockRequest as Request,
@@ -44,7 +47,10 @@ describe('LoggerMiddleware', () => {
       mockNextFunction,
     );
 
-    expect(mockResponse.on).toHaveBeenCalledWith('finish', expect.any(Function));
+    expect(mockResponse.on).toHaveBeenCalledWith(
+      'finish',
+      expect.any(Function),
+    );
     expect(mockNextFunction).toHaveBeenCalled();
 
     // Simulate the 'finish' event
